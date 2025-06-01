@@ -4,13 +4,22 @@ const AddThread = require('../../../Domains/threads/entities/AddThread');
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
 const pool = require('../../database/postgres/pool');
 const ThreadTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
+const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 
 describe('ThreadRepositoryPostgres', () => {
+  beforeAll(async () => {
+    await UsersTableTestHelper.addUser({
+      id: 'user-777',
+      username: 'aldi',
+    });
+  });
+
   afterEach(async () => {
     await ThreadTableTestHelper.cleanTable();
   });
 
   afterAll(async () => {
+    await UsersTableTestHelper.cleanTable();
     await pool.end();
   });
 
@@ -22,7 +31,7 @@ describe('ThreadRepositoryPostgres', () => {
         body: 'the body of the thread',
         owner: 'user-777',
       });
-      const fakeIdGenerator = () => '777'; // stub!
+      const fakeIdGenerator = () => '777';
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
@@ -33,7 +42,7 @@ describe('ThreadRepositoryPostgres', () => {
       expect(threads).toHaveLength(1);
       expect(addedThread).toStrictEqual(
         new AddedThread({
-          id: 'thread-123',
+          id: 'thread-777',
           title: addThread.title,
           owner: addThread.owner,
         })

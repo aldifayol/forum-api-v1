@@ -22,6 +22,7 @@ describe('AddThreadUseCase', () => {
     const mockThreadRepository = {
       addThread: jest.fn().mockResolvedValue({ id: 'thread-777' }),
     };
+    console.log(mockThreadRepository);
 
     // Create use-case instance with mock
     const addThreadUseCase = new AddThreadUseCase({

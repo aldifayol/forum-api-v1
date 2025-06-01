@@ -16,6 +16,7 @@ describe('An AddThread entity', () => {
     const payload = {
       title: 888,
       body: true,
+      owner: {},
     };
 
     // Action & Assert
@@ -27,6 +28,7 @@ describe('An AddThread entity', () => {
     const payload = {
       title: 'Thread title',
       body: 'Thread body',
+      owner: 'user-888',
     };
     const thread = new Thread(payload);
 
