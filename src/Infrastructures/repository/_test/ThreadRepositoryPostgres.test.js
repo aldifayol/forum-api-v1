@@ -9,7 +9,7 @@ const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 describe('ThreadRepositoryPostgres', () => {
   beforeAll(async () => {
     await UsersTableTestHelper.addUser({
-      id: 'user-777',
+      id: 'user-4171',
       username: 'aldi',
     });
   });
@@ -26,25 +26,26 @@ describe('ThreadRepositoryPostgres', () => {
   describe('addThread function', () => {
     it('should persist new thread and return added thread correctly', async () => {
       // Arrange
-      const addThread = new AddThread({
+      const payload = {
         title: 'Thread title',
         body: 'the body of the thread',
-        owner: 'user-777',
-      });
+        owner: 'user-4171',
+      };
+
       const fakeIdGenerator = () => '777';
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
-      const addedThread = await threadRepositoryPostgres.addThread(addThread);
+      const addedThread = await threadRepositoryPostgres.addThread(payload);
 
       // Assert
-      const threads = await ThreadTableTestHelper.findThreadById('thread-777');
-      expect(threads).toHaveLength(1);
+      const thread = await ThreadTableTestHelper.findThreadById('thread-777');
+      expect(thread).toHaveLength(1);
       expect(addedThread).toStrictEqual(
         new AddedThread({
           id: 'thread-777',
-          title: addThread.title,
-          owner: addThread.owner,
+          title: payload.title,
+          owner: payload.owner,
         })
       );
     });

@@ -1,4 +1,4 @@
-const Thread = require('../AddThread');
+const AddThread = require('../AddThread');
 
 describe('An AddThread entity', () => {
   it('should throw error when payload contains no needed property', () => {
@@ -8,7 +8,7 @@ describe('An AddThread entity', () => {
     };
 
     // Action & Assert
-    expect(() => new Thread(payload)).toThrowError('THREAD.CONTAINS_NO_NEEDED_PROPERTY');
+    expect(() => new AddThread(payload)).toThrowError('THREAD.CONTAINS_NO_NEEDED_PROPERTY');
   });
 
   it('should throw error when payload meets no data type specification', () => {
@@ -16,21 +16,19 @@ describe('An AddThread entity', () => {
     const payload = {
       title: 888,
       body: true,
-      owner: {},
     };
 
     // Action & Assert
-    expect(() => new Thread(payload)).toThrowError('THREAD.MEETS_NO_DATA_TYPE_SPECIFICATION');
+    expect(() => new AddThread(payload)).toThrowError('THREAD.MEETS_NO_DATA_TYPE_SPECIFICATION');
   });
 
   it('should create Thread object correctly', () => {
     // Arrange & Action
     const payload = {
       title: 'Thread title',
-      body: 'Thread body',
-      owner: 'user-888',
+      body: 'This is the body',
     };
-    const thread = new Thread(payload);
+    const thread = new AddThread(payload);
 
     // Assert
     expect(thread.title).toEqual(payload.title);
